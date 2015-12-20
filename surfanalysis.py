@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.integrate as scin
 import scipy.optimize as scop
-
+import warnings
 
 def self_affine_psd(q, pref, hurst, onedim=False):
     """Ideal self-affine power spectrum, dependent only on prefactor and Hurst exponent."""
@@ -17,7 +17,9 @@ def self_affine_psd_fit(q, C, onedim=False):
     # to least squares, magnitude-wise    
     def self_affine_psd_log(q, pref, hurst):
         return np.log10(self_affine_psd(q, pref, hurst, onedim))
-    popt, pcov = scop.curve_fit(self_affine_psd_log, q, np.log10(C))
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore") # ignoring unphysical vals during fit
+        popt, pcov = scop.curve_fit(self_affine_psd_log, q, np.log10(C))
     return popt
 
 
