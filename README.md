@@ -1,2 +1,5 @@
 # rough_surfaces
-power spectrum and more for rough surfaces
+
+Fast Fourier Transform based power spectrum analysis for rough surfaces.
+
+
