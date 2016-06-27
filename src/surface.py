@@ -5,10 +5,10 @@ class Surface:
     '''
     One- or two-dimensional surface height representation. 
     
-    The assumption upon which this framework is based is a uniform lattice size in both directions, 
-    which is reflected in this class. 'Surface' is the fundamental class that most modules build 
-    upon. It usually represents the model or computational domain, as it may represent both,
-    individual or composite surfaces, i.e., rough surfaces or an aperture field.
+    The assumption upon which this framework is based is a uniform lattice size in both directions. 
+    This is tightly integrated here. 'Surface' is the fundamental class that most modules build 
+    upon. It usually represents the model or computational domain, as it may discretize either,
+    individual and composite surfaces, i.e., rough surfaces and aperture fields.
     
     Standard initialization is from two-dimensional ndarray and lattice size:
     >>> import numpy as np
