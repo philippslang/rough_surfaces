@@ -58,9 +58,11 @@ class Surface:
         return np.equal(self.h, other.h).all()
     
     def __getitem__(self, pos):
+        '''Surface height at index'''
         return self.h[pos]
     
     def __setitem__(self, pos, val):
+        '''Surface height at index'''
         self.h[pos] = val
     
     def save(self, file):    
