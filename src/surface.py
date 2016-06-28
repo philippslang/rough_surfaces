@@ -36,7 +36,7 @@ class Surface:
         ...
     IndexError: tuple index out of range
     '''
-    
+
     def __init__(self, input_array, dxy):
         '''Input array [L] is copied to ndarray, and dxy [L] is cell size.'''
         self.h = np.array(input_array)
