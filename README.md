@@ -1,4 +1,6 @@
-## Analysis of rough surfaces
+## Analysis, elastic contact and fluid flow simulation for rough surfaces
+
+[![Build Status](https://travis-ci.org/plang85/rough_surfaces.svg?branch=master)](https://travis-ci.org/plang85/rough_surfaces)
 
 Fast Fourier Transform based power spectrum analysis for rough surfaces.
 
