@@ -1,0 +1,4 @@
+pytest
+numpy>=1.1
+scipy>=0.18
+matplotlib
