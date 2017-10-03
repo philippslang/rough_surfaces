@@ -17,8 +17,8 @@ Then verify that the tests are passing
 
 ```
 cd rough_surfaces
-pip install -e .[test] --upgrade
-pytest
+pip install -e .[test] 
+PYTHONPATH=$PWD:$PYTHONPATH pytest
 ```
 
 and do some damage. 
