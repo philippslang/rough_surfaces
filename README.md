@@ -65,3 +65,25 @@ An anisotropic surface is characterized by a less linear radially averaged PSD a
   <img src="https://raw.githubusercontent.com/plang85/rough_surfaces/master/doc/anisotropic.png" height="400">
   <br/>
 </p>
+
+### Contact (elastic frictionless)
+
+We can solve the elastic frictionless contact between two rough surfaces by solving the equivalent problem of a rigid composite surface against an elastic, flat body of composite properties
+```
+import brown.analyse as ba
+
+spectrum = ba.radially_averaged_psd(h, dxy)
+invariants = ba.self_affine_psd_fit(*surface_spectrum)
+print('Hurst = {0:.2f}'.format(invariants[1]))
+```
+
+For a more detailed snippet see `example_analysis.py`.
+
+<p align="left">
+  <img src="https://raw.githubusercontent.com/plang85/rough_surfaces/master/doc/contact.png" height="400">
+  <br/>
+</p>
+
+# Flow (steady-state laminar flow fluid pressure)
+
+Coming soon...

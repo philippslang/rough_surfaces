@@ -1,8 +1,8 @@
 import numpy as np
 import brown.surface as bs
 import brown.analyse as ba
-import matplotlib.pyplot as plt
 import brown.plot as bp
+import matplotlib.pyplot as plt
 
 
 fnames = ['../doc/isotropic.txt', '../doc/anisotropic.txt']

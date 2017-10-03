@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import rcParams
 import scipy.stats as scst
+# TODO get rid of these and we won't need matplotlib in the setup, only for examples
 rcParams['font.size'] = 14
 rcParams['legend.fontsize'] = 10
 rcParams['savefig.dpi'] = 300

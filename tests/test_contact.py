@@ -4,10 +4,10 @@ import brown.generate as sg
 import brown.contact as sc
 
 
-verbose = 0
+verbose = 0 # wtf TODO dont do this
 
 
-def _rel_err(num, ref):
+def _rel_err(num, ref): # also dont do this TODO use np.allclose
     return abs(num-ref)/abs(ref)
 
 
