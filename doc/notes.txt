@@ -1,0 +1,2 @@
+on fedora, matplotlib backend:
+sudo dnf install python3-tkinter

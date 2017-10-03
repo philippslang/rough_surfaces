@@ -9,7 +9,7 @@ setup(name='Brown',
       download_url='https://github.com/plang85/rough_surfaces.git',
       install_requires=['numpy>=1.9.1',
                         'scipy>=0.14',
-                        'matplotlib'],
+                        'matplotlib'], # hate this here TODO somehow get rid of plotting stuff
       extras_require={
           'test': ['pytest',
                    'pytest-pep8',

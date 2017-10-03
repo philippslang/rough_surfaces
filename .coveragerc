@@ -1,0 +1,4 @@
+[run]
+omit = brown/plot.py
+       brown/params.py
+       */__init__.py

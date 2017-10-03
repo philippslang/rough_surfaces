@@ -18,7 +18,7 @@ Then verify that the tests are passing
 ```
 cd rough_surfaces
 pip install -e .[test] 
-PYTHONPATH=$PWD:$PYTHONPATH pytest
+pytest
 ```
 
 and do some damage. 

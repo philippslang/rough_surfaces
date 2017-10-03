@@ -1,4 +1,3 @@
-import sys
 import numpy as np
 import brown.surface as bs
 import brown.analyse as ba
@@ -7,7 +6,7 @@ import brown.plot as bp
 
 
 fnames = ['../doc/isotropic.txt', '../doc/anisotropic.txt']
-dxys = [5./2**9] * len(fnames) # sample spacing
+dxys = [5./2**9] * len(fnames) # sample spacing, here the same for both decks
 window = True
 length_unit = 'm'
 
