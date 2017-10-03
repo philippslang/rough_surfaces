@@ -61,7 +61,7 @@ def radially_averaged_psd(h, dxy, window=True):
     """
     h = np.copy(h)
     N = h.shape[0]
-    N_center = N/2
+    N_center = int(N/2)
     L = N*dxy
     q_L = 2*np.pi/L
 
@@ -73,8 +73,8 @@ def radially_averaged_psd(h, dxy, window=True):
     C_q = ((2*np.pi)**2/L**2) * np.abs(h_a_q)**2      # Equ. C.6
 
     # first quadrant of FFT, rest follows in periodic averaging
-    m = range(1,N_center+1)         # frequency multiplier
-    mxy = range(0,N_center)         # grid indices
+    m = np.array(range(1,N_center+1))         # frequency multiplier
+    mxy = np.array(range(0,N_center))         # grid indices
     q = np.array(m)*q_L             # frequencies
     xv, yv = np.meshgrid(mxy, mxy)  # grid index meshes
     mxyabs = np.sqrt(xv**2+yv**2)   # grid index vector lengths
@@ -120,8 +120,8 @@ def axis_averaged_psd(h, dx, window=True, axis=0):
 
     # freqs
     q = np.fft.fftfreq(N, dx)*2*np.pi
-    q = q[1:N/2]
+    q = q[1:int(N/2)]
 
     # avg
-    C = np.average(powers, axis=0)[1:N/2]
+    C = np.average(powers, axis=0)[1:int(N/2)]
     return q, C

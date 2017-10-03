@@ -1,12 +1,8 @@
 import numpy as np
 from matplotlib import rcParams
 import scipy.stats as scst
-rcParams['font.family'] = 'sans-serif'
-rcParams['mathtext.default'] = 'regular'
-rcParams['font.sans-serif'] = ['Arial']
 rcParams['font.size'] = 14
 rcParams['legend.fontsize'] = 10
-rcParams['axes.color_cycle'] = ['black', 'red', 'blue']
 rcParams['savefig.dpi'] = 300
 rcParams['legend.loc'] = 'upper right'
 rcParams['image.cmap'] = 'hot'
