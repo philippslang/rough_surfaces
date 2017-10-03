@@ -13,7 +13,7 @@ class TestSurfaceGeneration(unittest.TestCase):
     def test_self_affine(self):
         surface_params = bp.self_affine_default_parameters()
         surface = bg.self_affine(surface_params, self.N_power_of_two)
-        N = 2**self.power_of_two
+        N = 2**self.N_power_of_two
         assert surface.shape[0] == surface.shape[1] == N
         # TODO this should be able to take the surface directly, make it numpy array compatible
         surface_spectrum = ba.radially_averaged_psd(surface.h, self.dxy)

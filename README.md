@@ -31,7 +31,7 @@ instead.
 
 ## Examples
 
-### Generate
+### Generation
 
 We can generate an isotropic, self-affine surface like this
 ```
@@ -70,13 +70,12 @@ An anisotropic surface is characterized by a less linear radially averaged PSD a
 
 We can solve the elastic frictionless contact between two rough surfaces by solving the equivalent problem of a rigid composite surface against an elastic, flat body of composite properties
 ```
-import brown.analyse as ba
+import brown.contact as bc
 
-spectrum = ba.radially_averaged_psd(h, dxy)
-invariants = ba.self_affine_psd_fit(*surface_spectrum)
-print('Hurst = {0:.2f}'.format(invariants[1]))
+dxy = 1.0E-3
+nominal_stress = 1.0E7
+contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1)
 ```
-
 For a more detailed snippet see `example_analysis.py`.
 
 <p align="left">
@@ -84,6 +83,6 @@ For a more detailed snippet see `example_analysis.py`.
   <br/>
 </p>
 
-# Flow (steady-state laminar flow fluid pressure)
+### Flow (steady-state laminar flow fluid pressure)
 
 Coming soon...
