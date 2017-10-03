@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
-import surface_generation as sg
-import surface_contact as sc
+import brown.surface_generation as sg
+import brown.surface_contact as sc
 
 
 verbose = 0

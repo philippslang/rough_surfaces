@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-import surface as sr
+import brown.surface as sr
 
 class TestSurface(unittest.TestCase):
 

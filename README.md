@@ -1,6 +1,27 @@
-## Analysis, elastic contact and fluid flow simulation for rough surfaces
+## Analysis, elastic contact and fluid flow simulation for rock fractures
 
 [![Build Status](https://travis-ci.org/plang85/rough_surfaces.svg?branch=master)](https://travis-ci.org/plang85/rough_surfaces)
+
+
+If you'd be willing to help out, first spread the word ;), then clone the repo and cd into it using a virtual environment
+
+```
+git clone https://github.com/plang85/rough_surfaces.git
+python3 -m venv rsenv
+. rsenv/bin/activate
+```
+
+Then verify that the tests are passing
+
+```
+cd rough_surfaces
+pip install -e .[test] --upgrade
+pytest
+```
+
+and do some damage. 
+
+Some things this piece was build to enable:
 
 Fast Fourier Transform based power spectrum analysis for rough surfaces.
 

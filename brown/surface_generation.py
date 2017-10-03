@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-import surface as sr
+from . import surface as sr
 
 
 def self_affine(saparams, power_of_two, seed=None):
