@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-import brown.surface_generation as sg
+import brown.generate as sg
 
 
 class TestSurfaceGeneration(unittest.TestCase):
