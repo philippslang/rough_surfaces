@@ -22,8 +22,9 @@ def self_affine(saparams, power_of_two, seed=None):
     f_L = 1.0/N  # rel frequency
     f_0, f_1 = f_L*lambda_L_over_lambda_0, f_L*lambda_L_over_lambda_1  
     A = np.zeros((N,N), dtype=complex)
-    rand_norm_1, rand_norm_2 = np.random.randn(N/2+1,N/2+1), np.random.randn(N/2+1,N/2+1)
-    rand_unif_1, rand_unif_2 = np.random.rand(N/2+1,N/2+1), np.random.rand(N/2+1,N/2+1)
+    center = int(N/2)
+    rand_norm_1, rand_norm_2 = np.random.randn(center+1, center+1), np.random.randn(center+1, center+1)
+    rand_unif_1, rand_unif_2 = np.random.rand(center+1, center+1), np.random.rand(center+1, center+1)
     for i in range(0, int(N/2+1)):
         for j in range(0, int(N/2+1)):
             phase = 2. * np.pi * rand_unif_1[i,j]                       
@@ -38,11 +39,11 @@ def self_affine(saparams, power_of_two, seed=None):
             i0 = 0 if i == 0 else N-i
             j0 = 0 if j == 0 else N-j
             A[i0,j0] = rad*np.cos(phase) - rad*np.sin(phase)*1j 
-    A[N/2,0] = A[N/2,0].real + 0j
-    A[0,N/2] = A[0,N/2].real + 0j
-    A[N/2,N/2] = A[N/2,N/2].real + 0j
-    for i in range(1, int(N/2)):
-        for j in range(1, int(N/2)):
+    A[center, 0] = A[center,0].real + 0j
+    A[0, center] = A[0, center].real + 0j
+    A[center, center] = A[center, center].real + 0j
+    for i in range(1, center):
+        for j in range(1, center):
             phase = 2. * np.pi * rand_unif_2[i,j]
             f = np.sqrt((float(i)/N)**2 + (float(j)/N)**2)
             f = f if f > f_0 else f_0   # hi pass --> f_0             
