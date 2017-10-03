@@ -1,5 +1,7 @@
 ## Analysis, elastic contact and fluid flow simulation for rock fractures
 
+:construction: this is under heavy construction right now :construction:
+
 [![Build Status](https://travis-ci.org/plang85/rough_surfaces.svg?branch=master)](https://travis-ci.org/plang85/rough_surfaces)
 
 
