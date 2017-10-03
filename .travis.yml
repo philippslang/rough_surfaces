@@ -8,4 +8,4 @@ install:
 
 # command to run tests, TODO should we move this to a script?
 script:
-  - PYTHONPATH=$PWD:$PYTHONPATH pytest 
+  - PYTHONPATH=$PWD:$PYTHONPATH py.test 
