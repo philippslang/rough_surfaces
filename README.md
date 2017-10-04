@@ -1,6 +1,6 @@
 # Brown
 
-A python3 module for the analysis, elastic contact and fluid flow simulation of rock fractures
+A Python3 module for the analysis, elastic contact and fluid flow simulation of rock fractures
 
 Platform | Build status
 ---------|-------------:
@@ -22,7 +22,7 @@ pytest
 ```
 do some damage and just PR against master. 
 
-To just use the module, do
+To just use the module, it's still good practice to checkout the repo and use a venv, but then just do
 ```
 cd rough_surfaces
 pip install .
@@ -72,8 +72,9 @@ We can solve the elastic frictionless contact between two rough surfaces by solv
 ```
 import brown.contact as bc
 
-dxy = 1.0E-3
 nominal_stress = 1.0E7
+E = 1.0E+9
+nu = 0.3
 contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1)
 ```
 For a more detailed snippet see `example_analysis.py`.
@@ -85,4 +86,14 @@ For a more detailed snippet see `example_analysis.py`.
 
 ### Flow (steady-state laminar flow fluid pressure)
 
-Coming soon...
+Working on porting this...
+
+
+## Publications
+
+Lang, P. S., Paluszny, A., & Zimmerman, R. W. (2015). Hydraulic sealing due to pressure solution contact zone growth in siliciclastic rock fractures. Journal of Geophysical Research: Solid Earth, 120(6), 4080–4101. http://doi.org/10.1002/2015JB011968
+
+Lang, P. S., Paluszny, A., & Zimmerman, R. W. (2016). Evolution of fracture normal stiffness due to pressure dissolution and precipitation. International Journal of Rock Mechanics and Mining Sciences, 88, 12–22. http://doi.org/10.1016/j.ijrmms.2016.06.004
+
+Lang, P. S. Multi-scale modelling of coupled thermo-hydro-mechanical-chemical processes in fractured rocks.
+Doctoral Thesis, Imperial College, 2016. http://hdl.handle.net/10044/1/45644

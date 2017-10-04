@@ -7,6 +7,7 @@ import brown.generate as bg
 
 @pytest.fixture
 def rough_surface():
+    # TODO more hurst parameters
     # TODO discretization parameter abstraction
     N_power_of_two, dxy = 9, 1.0
     surface_params = bp.self_affine_default_parameters()
@@ -22,6 +23,6 @@ def test_self_affine(rough_surface):
     surface_spectrum = ba.radially_averaged_psd(surface.h, surface.dxy)
     surface_invariants = ba.self_affine_psd_fit(*surface_spectrum)
     surface_hurst = surface_invariants[1]
-    assert np.allclose(surface_params.hurst, surface_hurst, atol=0.05)
+    assert np.isclose(surface_params.hurst, surface_hurst, rtol=0.1)
 
 
