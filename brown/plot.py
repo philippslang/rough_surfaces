@@ -40,8 +40,25 @@ def roughness_histogram(ax, h, length_unit):
     ax.set_ylabel('Relative Probability')
 
 
-def traces(ax, surfaces):
-    pass
+def trace(surface, index, axis=0):
+    if axis == 0:
+        return surface[index, :]
+    elif axis == 1:
+        return surface[:, index]
+    else:
+        raise ValueError('axis must be 0(x) or 1(y)')
+
+
+def traces(ax, surface, displacements=[], index=None, axis=0):
+    if not index:
+        index = int(surface.shape[axis]/2)
+    surface_trace = trace(surface, index, axis)
+    ax.plot(surface_trace, label='rigid surface')
+    if displacements:
+        for displacement in displacements:
+            shifted_displacement = displacement - (np.max(displacement)-np.max(surface))
+            ax.plot(trace(shifted_displacement, index, axis), label='elastic body')
+
 
 
 def slope_histogram(ax, h):

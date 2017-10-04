@@ -80,7 +80,11 @@ contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1)
 For a more detailed snippet see `example_analysis.py`.
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/plang85/rough_surfaces/master/doc/contact.png" height="400">
+  <img src="https://raw.githubusercontent.com/plang85/rough_surfaces/master/doc/contact.png" height="300">
+  <br/>
+</p>
+<p align="left">
+  <img src="https://raw.githubusercontent.com/plang85/rough_surfaces/master/doc/contacttrace.png" height="300">
   <br/>
 </p>
 
