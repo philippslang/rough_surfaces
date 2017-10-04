@@ -17,7 +17,7 @@ E, nu = 1.0E+9, 0.3
 composite_modulus = bc.homogeneous_composite_modulus(E, nu)
 dxy = 1.0E-3
 nominal_stress = 1.0E7
-contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1)
+contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1, err_lim=1.0E-8)
 
 fig, ax = plt.subplots()
 N = surface.shape[0]

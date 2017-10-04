@@ -17,6 +17,39 @@ class Results:
     def contact_area(self, dxy):
         """Absolute area of contact in [L2], assuming uniform grid spacing."""
         return len(self.p[self.p>0.])*dxy**2
+
+
+class ProgressBar:
+    def __init__(self):
+        self.fill = '█'
+        self.length = 25
+        self.decimals = 1
+        self.min_abs_residual = None
+        self.initial_fraction = None
+        self.iteration = 1
+
+    def __enter__(self):
+        self.update()
+        return self
+
+    def __exit__(self, *args):
+        print()
+
+    def err_lim(self, min_abs_residual):
+        self.min_abs_residual = min_abs_residual
+
+    def update(self, abs_residual=None):
+        if not abs_residual:
+            return
+        current_fraction = np.log10(abs_residual/self.min_abs_residual)
+        if abs_residual and not self.initial_fraction:
+            self.initial_fraction = current_fraction   
+        fraction = 1.0 - current_fraction/self.initial_fraction
+        num_filled = abs(int(self.length * fraction))
+        bar = self.fill * num_filled + '-' * (self.length - num_filled)
+        print('\rConvergence |{0}| {1:3d}%, residual={3:.2e}(max={4:.2e}), it={2:<4d}'.format(bar, 
+          abs(int(100.0*fraction)), self.iteration, abs_residual, self.min_abs_residual), end='\r')
+        self.iteration += 1
     
     
 def _recon_FFT(x, y):
@@ -155,49 +188,51 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
         print('cg/fft elastic contact algorithm on %d X %d grid, sigma_0 = %8.2e, E = %8.2e, nu = %5.2f'%(N, N, nominal_stress, E, nu))  
           
     # CG loop
-    while err > errlim:
-        if it > it_max:
+    with ProgressBar() as progress_bar:
+        while err > errlim:
+            if it > it_max:
+                if verbose:
+                        print('stopped due to maximum iteration constraint of %d'%(it_max))
+                break
+            it = it+1
+            sy = np.where(P > 0.) # contact area
+            sn = np.where(P <= 0.) # free area
+            # compute displacement in frequency domain and transform back to  spatial domain
+            dd = dft.ifft2(fA*dft.fft2(P,s=(2*N,2*N)))
+            dd = dd.real
+            u = dd[0:N,0:N]        
+            rk = u+s.h
+            do = np.mean(rk[sy])
+            rk = rk-do        
+            # norm
+            G = np.sum(rk[sy]*rk[sy])
+            # slopes
+            pk[sy] = rk[sy] + G/gold*pk[sy]
+            pk[sn] = 0.
+            gold = G
+            # qk
+            dd = dft.ifft2(fA*dft.fft2(pk,s=(2*N,2*N)))
+            dd = dd.real
+            qk = dd[0:N,0:N]
+            # rb is the adjustment in approach
+            rb = np.mean(qk[sy]);
+            qk = qk-rb
+            # coeffs
+            dp = np.sum(rk[sy]*pk[sy])/np.sum(qk[sy]*pk[sy])
+            P[sy] = P[sy] - dp*pk[sy]
+            P[P < 0.] = 0.    
+            sol = np.where((P == 0.) & (rk < 0.))
+            P[sol] = P[sol] - dp*rk[sol]
+            W = np.sum(P) * dxy**2
+            P = charge/W*P
+            err = np.sqrt(gold*dxy**2)
+            errs.append(err)
+            if it == 1:
+                errlim = err*errlim
+                progress_bar.err_lim(errlim)
             if verbose:
-                    print('stopped due to maximum iteration constraint of %d'%(it_max))
-            break
-        it = it+1
-        sy = np.where(P > 0.) # contact area
-        sn = np.where(P <= 0.) # free area
-        # compute displacement in frequency domain and transform back to  spatial domain
-        dd = dft.ifft2(fA*dft.fft2(P,s=(2*N,2*N)))
-        dd = dd.real
-        u = dd[0:N,0:N]        
-        rk = u+s.h
-        do = np.mean(rk[sy])
-        rk = rk-do        
-        # norm
-        G = np.sum(rk[sy]*rk[sy])
-        # slopes
-        pk[sy] = rk[sy] + G/gold*pk[sy]
-        pk[sn] = 0.
-        gold = G
-        # qk
-        dd = dft.ifft2(fA*dft.fft2(pk,s=(2*N,2*N)))
-        dd = dd.real
-        qk = dd[0:N,0:N]
-        # rb is the adjustment in approach
-        rb = np.mean(qk[sy]);
-        qk = qk-rb
-        # coeffs
-        dp = np.sum(rk[sy]*pk[sy])/np.sum(qk[sy]*pk[sy])
-        P[sy] = P[sy] - dp*pk[sy]
-        P[P < 0.] = 0.    
-        sol = np.where((P == 0.) & (rk < 0.))
-        P[sol] = P[sol] - dp*rk[sol]
-        W = np.sum(P) * dxy**2
-        P = charge/W*P
-        err = np.sqrt(gold*dxy**2)
-        errs.append(err)
-        if it == 1:
-            errlim = err*errlim
-        if verbose:
-            print('iteration %4d yields residual of %8.2e versus limit of %8.2e'%(it, err, errlim))
-            
+                progress_bar.update(err)
+                
     # return
     s.h *= -1.
     contact = Results()

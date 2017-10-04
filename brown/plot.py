@@ -40,6 +40,10 @@ def roughness_histogram(ax, h, length_unit):
     ax.set_ylabel('Relative Probability')
 
 
+def traces(ax, surfaces):
+    pass
+
+
 def slope_histogram(ax, h):
     bins = 30
     g = np.gradient(h)
