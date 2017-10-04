@@ -21,7 +21,7 @@ nominal_stress = 1.0E7
 contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1, err_lim=1.0E-8)
 
 
-if 1:
+if 0:
     fig, ax = plt.subplots()
     bplt.traces(ax, surface.h, [contact.u], 128)
     unit_den = '(m)'
@@ -30,7 +30,7 @@ if 1:
     plt.legend()
     plt.show()
 
-if 0:
+if 1:
     fig, ax = plt.subplots()
     N = surface.shape[0]
     L = surface.length()
@@ -41,7 +41,7 @@ if 0:
     unit_den = '(m)'
     ax.set_xlabel('x ' + unit_den)
     ax.set_ylabel('y ' + unit_den)
-    cbar = bplt.colorbar(pressure_plot)
+    cbar = plt.colorbar(pressure_plot)
     cbar.set_label('Pressure (Pa)', rotation=270)
     plt.show()
 
