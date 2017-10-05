@@ -27,7 +27,7 @@ To just use the module, it's still good practice to checkout the repo and use a 
 cd rough_surfaces
 pip install .
 ```
-instead.
+instead. As you can see recommenden practice is to use the head at all times (no promises though ;).
 
 ## Examples
 
@@ -75,7 +75,7 @@ import brown.contact as bc
 nominal_stress = 1.0E7
 E = 1.0E+9
 nu = 0.3
-contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1)
+contact = bc.contact_FFT(composite_surface, nominal_stress, E, nu, verbose=1)
 ```
 For a more detailed snippet see `example_analysis.py`.
 
@@ -99,5 +99,5 @@ Lang, P. S., Paluszny, A., & Zimmerman, R. W. (2015). Hydraulic sealing due to p
 
 Lang, P. S., Paluszny, A., & Zimmerman, R. W. (2016). Evolution of fracture normal stiffness due to pressure dissolution and precipitation. International Journal of Rock Mechanics and Mining Sciences, 88, 12–22. http://doi.org/10.1016/j.ijrmms.2016.06.004
 
-Lang, P. S. Multi-scale modelling of coupled thermo-hydro-mechanical-chemical processes in fractured rocks.
-Doctoral Thesis, Imperial College, 2016. http://hdl.handle.net/10044/1/45644
+Lang, P. S. (2016). Multi-scale modelling of coupled thermo-hydro-mechanical-chemical processes in fractured rocks.
+Doctoral Thesis, Imperial College. http://hdl.handle.net/10044/1/45644

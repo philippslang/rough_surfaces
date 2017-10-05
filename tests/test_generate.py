@@ -24,5 +24,3 @@ def test_self_affine(rough_surface):
     surface_invariants = ba.self_affine_psd_fit(*surface_spectrum)
     surface_hurst = surface_invariants[1]
     assert np.isclose(surface_params.hurst, surface_hurst, rtol=0.1)
-
-
