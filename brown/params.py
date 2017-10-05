@@ -2,7 +2,7 @@ import collections as co
 
 
 SAPARAMS = ['hrms', 'dimensions', 'hurst', 'lambda_L_over_lambda_0', 'lambda_L_over_lambda_1']
-SADEFAUL = [0.01, (1.0,1.0), 0.8, None, None]
+SADEFAUL = [0.01, (1.0, 1.0), 0.8, None, None]
 
 
 '''Minimalistic parameter set for self affine surfaces.'''
