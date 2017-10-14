@@ -42,3 +42,15 @@ def test_hertz(contact_numeric):
     assert np.isclose(contact_radius_num, contact_radius, rtol=0.01)
     assert np.isclose(approach_num, approach, rtol=0.01)
     assert np.isclose(p_max_num, p_max, rtol=0.01)
+
+
+def test_aperture():
+    dim = 10000
+    displacement = np.ones((dim, dim))
+    rigid_surface = np.zeros_like(displacement)
+    aperture = 0.5
+    rigid_surface[0, 0] = aperture
+    contact_results = bc.Results()
+    contact_results.displacement = displacement
+    aperture_to_test = contact_results.average_aperture(rigid_surface)
+    assert np.isclose(aperture, aperture_to_test, rtol=(1.0 / dim))

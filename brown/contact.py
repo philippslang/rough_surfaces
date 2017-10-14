@@ -14,9 +14,27 @@ class Results:
         self.p = None
         self.u = None
 
+    @property
+    def displacement(self):
+        return self.u
+
+    @displacement.setter
+    def displacement(self, value):
+        self.u = value
+
     def contact_area(self, dxy):
         """Absolute area of contact in [L2], assuming uniform grid spacing."""
         return len(self.p[self.p > 0.0]) * dxy**2
+
+    def average_aperture(self, rigid_surface):
+        """
+        The average mechanical aperture as between the elastic body
+        and the rigid surface.
+        """
+        # the stored displacement field is only relative
+        shifted_displacement = self.displacement - (np.max(self.displacement) - np.max(rigid_surface))
+        aperture = shifted_displacement - rigid_surface
+        return np.mean(aperture)
 
 
 class ProgressBar:
