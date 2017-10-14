@@ -31,7 +31,7 @@ class Results:
         The average mechanical aperture as between the elastic body
         and the rigid surface.
         """
-        # the stored displacement field is only relative
+        # the stored displacements are only relative
         shifted_displacement = self.displacement - (np.max(self.displacement) - np.max(rigid_surface))
         aperture = shifted_displacement - rigid_surface
         return np.mean(aperture)
@@ -256,6 +256,16 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
     contact = Results()
     contact.p, contact.u = P, u
     return contact
+
+
+def stiffness(nominal_stresses, rigid_surface, E, nu, **kwargs):
+    """
+    Computes stiffness given stresses, kwargs go to contact function.
+    """
+    contact_results = [contact_FFT(rigid_surface, nominal_stress, E, nu, **kwargs) 
+                       for nominal_stress in nominal_stresses]
+    apertures = [contact_result.average_aperture(rigid_surface)
+                 for contact_result in contact_results]
 
 
 if __name__ == '__main__':

@@ -53,4 +53,4 @@ def test_aperture():
     contact_results = bc.Results()
     contact_results.displacement = displacement
     aperture_to_test = contact_results.average_aperture(rigid_surface)
-    assert np.isclose(aperture, aperture_to_test, rtol=(1.0 / dim))
+    assert np.isclose(aperture, aperture_to_test, rtol=(1.0 / dim**2))
