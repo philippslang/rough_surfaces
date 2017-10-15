@@ -54,3 +54,21 @@ def test_aperture():
     contact_results.displacement = displacement
     aperture_to_test = contact_results.average_aperture(rigid_surface)
     assert np.isclose(aperture, aperture_to_test, rtol=(1.0 / dim**2))
+
+
+def test_stiffness():
+    dim = 10000
+    rigid_surface = np.zeros((dim, dim))
+    max_height = 11.0
+    rigid_surface[0, 0] = max_height
+    nominal_stresses = np.arange(1.0, 10.0)
+
+    def contact_mock(rigid_surface, nominal_stress, E, nu, verbose):
+        result = bc.Results()
+        result.displacement = np.zeros_like(rigid_surface)
+        result.displacement.fill(nominal_stress)
+        result.displacement[0, 0] = max_height
+        return result
+
+    stiffness_to_test = bc.stiffness(nominal_stresses, rigid_surface, None, None, contact_mock)
+    assert np.allclose(stiffness_to_test, np.ones_like(stiffness_to_test))

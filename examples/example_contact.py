@@ -15,10 +15,9 @@ N_power_of_two = 9
 surface_params = bp.self_affine_default_parameters()
 surface = bg.self_affine(surface_params, N_power_of_two, seed=0)
 E, nu = 1.0E+9, 0.3
-composite_modulus = bc.homogeneous_composite_modulus(E, nu)
 dxy = 1.0E-3
 nominal_stress = 1.0E7
-contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=1, err_lim=1.0E-8)
+contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=2, err_lim=1.0E-8)
 
 
 if 0:
@@ -44,5 +43,3 @@ if 1:
     cbar = plt.colorbar(pressure_plot)
     cbar.set_label('Pressure (Pa)', rotation=270)
     plt.show()
-
-# TODO cross section

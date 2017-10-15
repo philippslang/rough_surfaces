@@ -202,8 +202,8 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
     err, errs = 1., []
     it, gold = 0, 1.
     s.h *= -1.
-    if verbose:
-        print('cg/fft elastic contact algorithm on %d X %d grid, sigma_0 = %8.2e, E = %8.2e, nu = %5.2f' % (N, N, nominal_stress, E, nu))
+    if verbose > 1:
+        print('CG/FFT elastic contact algorithm on %d X %d grid, sigma_0 = %8.2e, E = %8.2e, nu = %5.2f' % (N, N, nominal_stress, E, nu))
 
     # CG loop
     with ProgressBar() as progress_bar:
@@ -258,14 +258,31 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
     return contact
 
 
-def stiffness(nominal_stresses, rigid_surface, E, nu, **kwargs):
+def stiffness(nominal_stresses, rigid_surface, E, nu, contact=contact_FFT, **kwargs):
     """
     Computes stiffness given stresses, kwargs go to contact function.
     """
-    contact_results = [contact_FFT(rigid_surface, nominal_stress, E, nu, **kwargs) 
-                       for nominal_stress in nominal_stresses]
-    apertures = [contact_result.average_aperture(rigid_surface)
-                 for contact_result in contact_results]
+    first_call = [True]
+
+    def average_aperture(nominal_stress):
+        verbosity = 1
+        if first_call[0]:
+            verbosity = 2
+            first_call[0] = False
+        result = contact(rigid_surface, nominal_stress, E, nu, verbose=verbosity, **kwargs)
+        return result.average_aperture(rigid_surface.h)
+
+    apertures = [average_aperture(nominal_stress) for nominal_stress in nominal_stresses]
+
+    # kappa = dp / d<a_m>, Eq. 2.8, negate aperture delta 
+    # here instead of abs to highlight errors
+    print(apertures)
+    print(nominal_stresses)
+    print(np.diff(apertures))
+    print(-1.0 * np.diff(apertures))
+    print(np.diff(nominal_stresses))
+    stiffness = np.diff(nominal_stresses) / (-1.0 * np.diff(apertures))
+    return stiffness
 
 
 if __name__ == '__main__':
