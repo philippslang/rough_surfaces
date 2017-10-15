@@ -12,7 +12,7 @@ rcParams['legend.loc'] = 'upper right'
 rcParams['image.cmap'] = 'hot'
 
 N_power_of_two = 9
-surface_params = bp.self_affine_default_parameters()
+surface_params = bp.SelfAffineParameters()
 surface = bg.self_affine(surface_params, N_power_of_two, seed=0)
 E, nu = 1.0E+9, 0.3
 dxy = 1.0E-3
@@ -20,7 +20,7 @@ nominal_stress = 1.0E7
 contact = bc.contact_FFT(surface, nominal_stress, E, nu, verbose=2, err_lim=1.0E-8)
 
 
-if 0:
+if 1:
     fig, ax = plt.subplots()
     bplt.traces(ax, surface.h, [contact.u], 128)
     unit_den = '(m)'

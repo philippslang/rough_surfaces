@@ -65,7 +65,7 @@ class ProgressBar:
         fraction = 1.0 - current_fraction / self.initial_fraction
         num_filled = abs(int(self.length * fraction))
         bar = self.fill * num_filled + '-' * (self.length - num_filled)
-        print('\rConvergence |{0}| {1:3d}%, residual={3:.2e}(max={4:.2e}), it={2:<4d}'.format(bar,
+        print('\rConvergence |{0}| {1:3d}%, res={3:.2e}(max={4:.2e}), it={2:<4d}'.format(bar,
               abs(int(100.0 * fraction)), self.iteration, abs_residual, self.min_abs_residual), end='\r')
         self.iteration += 1
 
@@ -274,13 +274,8 @@ def stiffness(nominal_stresses, rigid_surface, E, nu, contact=contact_FFT, **kwa
 
     apertures = [average_aperture(nominal_stress) for nominal_stress in nominal_stresses]
 
-    # kappa = dp / d<a_m>, Eq. 2.8, negate aperture delta 
+    # kappa = dp / d<a_m>, Eq. 2.8, negate aperture delta
     # here instead of abs to highlight errors
-    print(apertures)
-    print(nominal_stresses)
-    print(np.diff(apertures))
-    print(-1.0 * np.diff(apertures))
-    print(np.diff(nominal_stresses))
     stiffness = np.diff(nominal_stresses) / (-1.0 * np.diff(apertures))
     return stiffness
 

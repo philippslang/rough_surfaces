@@ -1,6 +1,7 @@
 import pytest
 import collections
 import numpy as np
+import brown.surface as bs
 import brown.generate as bg
 import brown.contact as bc
 
@@ -58,17 +59,17 @@ def test_aperture():
 
 def test_stiffness():
     dim = 10000
-    rigid_surface = np.zeros((dim, dim))
+    rigid_surface = bs.Surface(np.zeros((dim, dim)), 1.0)
     max_height = 11.0
     rigid_surface[0, 0] = max_height
     nominal_stresses = np.arange(1.0, 10.0)
 
     def contact_mock(rigid_surface, nominal_stress, E, nu, verbose):
         result = bc.Results()
-        result.displacement = np.zeros_like(rigid_surface)
+        result.displacement = np.zeros_like(rigid_surface.h)
         result.displacement.fill(nominal_stress)
         result.displacement[0, 0] = max_height
         return result
 
     stiffness_to_test = bc.stiffness(nominal_stresses, rigid_surface, None, None, contact_mock)
-    assert np.allclose(stiffness_to_test, np.ones_like(stiffness_to_test))
+    assert np.allclose(stiffness_to_test, -1.0 * np.ones_like(stiffness_to_test))
