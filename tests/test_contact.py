@@ -1,6 +1,7 @@
 import pytest
 import collections
 import numpy as np
+import brown.surface as bs
 import brown.generate as bg
 import brown.contact as bc
 
@@ -42,3 +43,33 @@ def test_hertz(contact_numeric):
     assert np.isclose(contact_radius_num, contact_radius, rtol=0.01)
     assert np.isclose(approach_num, approach, rtol=0.01)
     assert np.isclose(p_max_num, p_max, rtol=0.01)
+
+
+def test_aperture():
+    dim = 10000
+    displacement = np.ones((dim, dim))
+    rigid_surface = np.zeros_like(displacement)
+    aperture = 0.5
+    rigid_surface[0, 0] = aperture
+    contact_results = bc.Results()
+    contact_results.displacement = displacement
+    aperture_to_test = contact_results.average_aperture(rigid_surface)
+    assert np.isclose(aperture, aperture_to_test, rtol=(1.0 / dim**2))
+
+
+def test_stiffness():
+    dim = 10000
+    rigid_surface = bs.Surface(np.zeros((dim, dim)), 1.0)
+    max_height = 11.0
+    rigid_surface[0, 0] = max_height
+    nominal_stresses = np.arange(1.0, 10.0)
+
+    def contact_mock(rigid_surface, nominal_stress, E, nu, verbose):
+        result = bc.Results()
+        result.displacement = np.zeros_like(rigid_surface.h)
+        result.displacement.fill(nominal_stress)
+        result.displacement[0, 0] = max_height
+        return result
+
+    stiffness_to_test = bc.stiffness(nominal_stresses, rigid_surface, None, None, contact_mock)
+    assert np.allclose(stiffness_to_test, -1.0 * np.ones_like(stiffness_to_test))

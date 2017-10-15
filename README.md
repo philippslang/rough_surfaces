@@ -8,7 +8,7 @@ Linux, Python 3.6 | [![Build Status](https://travis-ci.org/plang85/rough_surface
 
 ## Install/Contribute
 
-If you're willing to help out, first spread the word ;), then clone the repo and cd into it using a virtual environment
+The API is still in flux, and for now only the functions used in the examples should remain stable. For developers, clone the repo and cd into it using a virtual environment
 ```
 git clone https://github.com/plang85/rough_surfaces.git
 python3 -m venv rsenv
@@ -27,7 +27,7 @@ To just use the module, it's still good practice to checkout the repo and use a 
 cd rough_surfaces
 pip install .
 ```
-instead. As you can see recommenden practice is to use the head at all times (no promises though ;).
+instead. As you can see recommenden practice is to use the head at all times (if you're adventureous).
 
 ## Examples
 
@@ -88,9 +88,19 @@ For a more detailed snippet see `example_analysis.py`.
   <br/>
 </p>
 
+We can also use a high-level function to compute the stiffness over a range of stresses
+```
+nominal_stress = np.logspace(6, 8, 15)
+stiffness = bc.stiffness(nominal_stress, surface, E, nu, err_lim=1.0E-8)
+```
+<p align="left">
+  <img src="https://raw.githubusercontent.com/plang85/rough_surfaces/master/doc/stiffness.png" height="400">
+  <br/>
+</p>
+
 ### Flow (steady-state laminar flow fluid pressure)
 
-Working on porting this...
+Working on porting this still...
 
 
 ## Publications

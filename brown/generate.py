@@ -8,8 +8,8 @@ def self_affine(saparams, power_of_two, seed=None):
     Generates a self affine rough surface with periodic boundaries using provided parameters,
     discretization size and random seed.
 
-    >>> import surface_parameters as sp
-    >>> saparams = sp.self_affine_default_parameters()
+    >>> import brown.parameters as bp
+    >>> saparams = bp.SelfAffineParameters()
     >>> s = self_affine(saparams, 7, seed=0)
     >>> s.rms() == saparams.hrms
     True

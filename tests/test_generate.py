@@ -10,7 +10,7 @@ def rough_surface():
     # TODO more hurst parameters
     # TODO discretization parameter abstraction
     N_power_of_two, dxy = 9, 1.0
-    surface_params = bp.self_affine_default_parameters()
+    surface_params = bp.SelfAffineParameters()
     surface = bg.self_affine(surface_params, N_power_of_two)
     return surface, surface_params, N_power_of_two
 
