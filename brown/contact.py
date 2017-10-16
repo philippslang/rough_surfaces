@@ -1,5 +1,6 @@
 import numpy as np
 import numpy.fft as dft
+import brown.surface as bs
 
 
 def homogeneous_composite_modulus(E, nu):
@@ -188,11 +189,11 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
 
     # discretizing P and assigning initial guess as uniformly
     # distributed from target load (charge..[N])
-    charge = nominal_stress * s.nominal_area()
+    charge = nominal_stress * bs.nominal_area(s)
     # imporved initial guess,
-    h_max = np.max(s.h)
+    h_max = np.max(s)
     P = np.zeros((N, N))
-    ic = np.where(s.h > h_max - h_max * initial_penetration_fraction)
+    ic = np.where(s > h_max - h_max * initial_penetration_fraction)
     contact_area_initial_guess = ic[0].size * dxy**2
     P[ic] = charge / contact_area_initial_guess
 
@@ -201,7 +202,7 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
     pk = np.zeros((N, N))
     err, errs = 1., []
     it, gold = 0, 1.
-    s.h *= -1.
+    s *= -1.
     if verbose > 1:
         print('CG/FFT elastic contact algorithm on %d X %d grid, sigma_0 = %8.2e, E = %8.2e, nu = %5.2f' % (N, N, nominal_stress, E, nu))
 
@@ -219,7 +220,7 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
             dd = dft.ifft2(fA * dft.fft2(P, s=(2 * N, 2 * N)))
             dd = dd.real
             u = dd[0:N, 0:N]
-            rk = u + s.h
+            rk = u + s
             do = np.mean(rk[sy])
             rk = rk - do
             # norm
@@ -252,7 +253,7 @@ def contact_FFT(s, nominal_stress, E, nu, it_max=1000, err_lim=1.0E-10, initial_
                 progress_bar.update(err)
 
     # return
-    s.h *= -1.
+    s *= -1.
     contact = Results()
     contact.p, contact.u = P, u
     return contact
@@ -270,7 +271,7 @@ def stiffness(nominal_stresses, rigid_surface, E, nu, contact=contact_FFT, **kwa
             verbosity = 2
             first_call[0] = False
         result = contact(rigid_surface, nominal_stress, E, nu, verbose=verbosity, **kwargs)
-        return result.average_aperture(rigid_surface.h)
+        return result.average_aperture(rigid_surface)
 
     apertures = [average_aperture(nominal_stress) for nominal_stress in nominal_stresses]
 

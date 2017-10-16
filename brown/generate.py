@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from . import surface as sr
+from . import surface as bs
 
 
 def self_affine(saparams, power_of_two, seed=None):
@@ -9,9 +9,10 @@ def self_affine(saparams, power_of_two, seed=None):
     discretization size and random seed.
 
     >>> import brown.parameters as bp
+    >>> import brown.surface as bs
     >>> saparams = bp.SelfAffineParameters()
     >>> s = self_affine(saparams, 7, seed=0)
-    >>> s.rms() == saparams.hrms
+    >>> bs.rms(s) == saparams.hrms
     True
     '''
     np.random.seed(seed)
@@ -53,9 +54,9 @@ def self_affine(saparams, power_of_two, seed=None):
             A[i, N - j] = rad * np.cos(phase) + rad * np.sin(phase) * 1j
             A[N - i, j] = rad * np.cos(phase) - rad * np.sin(phase) * 1j
     H = np.real(np.fft.ifft2((A)))
-    s = sr.Surface(H, L / float(N))
-    s.scale_to_property('rms', saparams.hrms)
-    s.shift_to_zero_mean()
+    s = bs.Surface(H, L / float(N))
+    s = bs.scale_to_rms(s, saparams.hrms)
+    s = bs.shift_to_zero_mean(s)
     return s
 
 
@@ -74,7 +75,7 @@ def sphere(N, edge_length, radius, scaling=1.0):
     h = np.zeros(r.shape)
     h[r <= radius] = np.sqrt(radius**2 - r[r <= radius]**2) * scaling
     dxy = edge_length / float(N)
-    s = sr.Surface(h, dxy)
+    s = bs.Surface(h, dxy)
     return s
 
 

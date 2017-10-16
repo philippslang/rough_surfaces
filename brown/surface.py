@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Surface:
+class Surface(np.ndarray):
     """
     One- or two-dimensional surface height representation.
 
@@ -15,11 +15,9 @@ class Surface:
     >>> N, dxy = 100, 0.1
     >>> h = np.zeros((N,N))
     >>> s = Surface(h, dxy)
-    >>> s
-    Surface((100x100), dxy=0.1)
-    >>> s.length()  # egde length in x-direction
+    >>> length(s)  # egde length in x-direction
     10.0
-    >>> s.length(1) # egde length in y-direction
+    >>> length(s, 1) # egde length in y-direction
     10.0
 
     Surfaces can also be one-dimensional, e.g., represent traces or cross-sections:
@@ -27,99 +25,63 @@ class Surface:
     >>> N, dxy = 100, 0.1
     >>> h = np.zeros((N))
     >>> s = Surface(h, dxy)
-    >>> s
-    Surface((100), dxy=0.1)
-    >>> s.length() # length
+    >>> length(s) # length
     10.0
-    >>> s.length(1) # there is no second axis for one-dimensional surfaces
+    >>> length(s, 1) # there is no second axis for one-dimensional surfaces
     Traceback (most recent call last):
         ...
     IndexError: tuple index out of range
     """
 
-    def __init__(self, input_array, dxy):
-        """"Input array [L] is copied to ndarray, and dxy [L] is cell size."""
-        self.h = np.array(input_array)
-        self.dxy = float(dxy)
+    def __new__(cls, input_array, dxy):
+        obj = np.asarray(input_array).view(cls)
+        obj.dxy = float(dxy)
+        return obj
 
-    def __repr__(self):
-        cls_name = type(self).__name__
-        msg_shape = '{!r}x{!r}' if len(self.h.shape) == 2 else '{!r}'
-        msg = '{}((' + msg_shape + '), dxy={!r})'
-        return msg.format(cls_name, *self.h.shape, self.dxy)
+    def __array_finalize__(self, obj):
+        if obj is None:
+            self.dxy = getattr(obj, 'dxy', None)
 
-    def __str__(self):
-        return '\n'.join([self.__repr__(), str(self.h)])
 
-    def __eq__(self, other):
-        """"Hard comparison (no tol), first cheap lattice size, then element wise."""
-        if not self.dxy == other.dxy:
-            return False
-        return np.equal(self.h, other.h).all()
+def rms(surface):
+    """"Returns root-mean-square roughness [L]."""
+    return np.sqrt(np.mean(surface**2))
 
-    def __getitem__(self, pos):
-        """"Surface height at index"""
-        return self.h[pos]
 
-    def __setitem__(self, pos, val):
-        """"Surface height at index"""
-        self.h[pos] = val
+def length(surface, axis=0):
+    """"Returns length [L] of surface in x- or y-direction, for axis=0 and 1, respectively."""
+    return surface.shape[axis] * surface.dxy
 
-    def save(self, file):
-        np.savez(file, h=self.h, dxy=self.dxy)
 
-    @classmethod
-    def load(cls, file):
-        d = np.load(file)
-        return cls(d['h'], d['dxy'])
+def nominal_area(surface):
+    """"Returns length() [L] for 1D, area [L^2] for 2D."""
+    a = 1.0
+    for i in range(len(surface.shape)):
+        a *= length(surface)
+    return a
 
-    @property
-    def shape(self):
-        return self.h.shape
 
-    def rms(self):
-        """"Returns root-mean-square roughness [L]."""
-        return np.sqrt(np.mean(self.h**2))
+def shift_to_zero_mean(surface):
+    """"Returns shifted surface such that <h> = 0."""
+    return Surface(surface - np.mean(surface), surface.dxy)
 
-    def length(self, axis=0):
-        """"Returns length [L] of surface in x- or y-direction, for axis=0 and 1, respectively."""
-        return self.shape[axis] * self.dxy
 
-    def nominal_area(self):
-        """"Returns length() [L] for 1D, area [L^2] for 2D."""
-        a = 1.0
-        for i in range(len(self.shape)):
-            a *= self.length(i)
-        return a
+def mean_aperture(surface):
+    """"Composite surface assumption: mean of difference field to highest point."""
+    return np.mean(np.abs(np.subtract(surface, np.max(surface))))
 
-    def shift_to_zero_mean(self):
-        """"Shifts surface such that <h> = 0."""
-        self.h = self.h - np.mean(self.h)
 
-    def mean_aperture(self):
-        """"Composite surface assumption: mean of difference field to highest point."""
-        return np.mean(np.abs(np.subtract(self.h, np.max(self.h))))
+def pore_volume(surface):
+    """"Composite surface assumption: mean aperture times area (2D-->[L^3]) or length (1D-->[L^2])."""
+    return mean_aperture(surface) * nominal_area(surface)
 
-    def pore_volume(self):
-        """"Composite surface assumption: mean aperture times area (2D-->[L^3]) or length (1D-->[L^2])."""
-        return self.mean_aperture() * self.nominal_area()
 
-    def scale_to_property(self, prop, target_value):
-        """
-        Scales height to fit target property, which must be name of scalar returning method.
-
-        >>> import numpy as np
-        >>> N, dxy = 100, 0.1
-        >>> h = np.ones((N))
-        >>> s = Surface(h, dxy)
-        >>> s.rms()
-        1.0
-        >>> s.scale_to_property('rms', 0.5)
-        >>> s.rms()
-        0.5
-        """
-        is_value = getattr(self, prop)()
-        self.h *= target_value / is_value
+def scale_to_rms(surface, rms_target):
+    """
+    Scales height to fit target property, which must be name of scalar returning method.
+    """
+    rms_current = rms(surface)
+    return Surface(surface * (rms_target / rms_current), surface.dxy)
 
 
 if __name__ == '__main__':
