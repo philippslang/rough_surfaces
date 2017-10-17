@@ -66,7 +66,7 @@ def test_stiffness():
 
     def contact_mock(rigid_surface, nominal_stress, E, nu, verbose):
         result = bc.Results()
-        result.displacement = np.zeros_like(rigid_surface.h)
+        result.displacement = np.zeros_like(rigid_surface)
         result.displacement.fill(nominal_stress)
         result.displacement[0, 0] = max_height
         return result

@@ -32,17 +32,15 @@ def radially_integrated_psd(q, C):
     return 2 * np.pi * scin.simps(np.multiply(q, C), q)
 
 
-def radially_averaged_psd(h, dxy, window=True):
+def radially_averaged_psd(surface, window=True):
     """
     Computes the power spectral density/roughness spectrum from roughness readings using angular averaging.
     This radial averaging makes this algorithm appropriate for isotropic surfaces.
 
     Parameters
     ----------
-    h: array_like (L)
+    h: brown.surface.Surface (L)
         A square 2D array containing the surface height profile, equidistant measurements assumed in both directions.
-    dxy: float (L)
-        Sampling distance in x- and y-direction.
     window: bool
         Hanning window applied to data before Discrete Fourier Transform to adhere to inherent periodicity. Defaults
         to True, not needed for periodic surfaces.
@@ -60,9 +58,10 @@ def radially_averaged_psd(h, dxy, window=True):
     ----
     Normalize.
     """
-    h = np.copy(h)
+    h = np.copy(surface)
     N = h.shape[0]
     N_center = int(N / 2)
+    dxy = surface.dxy
     L = N * dxy
     q_L = 2 * np.pi / L
 
