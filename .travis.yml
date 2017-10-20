@@ -9,7 +9,7 @@ install:
 
 # command to run tests, TODO should we move this to a script?
 script:
-  - PYTHONPATH=$PWD:$PYTHONPATH coverage pytest 
+  - PYTHONPATH=$PWD:$PYTHONPATH pytest 
   
 after_success:
   - codecov
