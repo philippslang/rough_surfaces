@@ -4,8 +4,12 @@ python:
 
 # command to install dependencies
 install:
+  - pip install codecov
   - pip install -e .[test]
 
 # command to run tests, TODO should we move this to a script?
 script:
-  - PYTHONPATH=$PWD:$PYTHONPATH pytest 
+  - PYTHONPATH=$PWD:$PYTHONPATH coverage pytest 
+  
+after_success:
+  - codecov
