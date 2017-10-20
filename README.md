@@ -8,7 +8,7 @@ Linux, Python 3.6 | [![Build Status](https://travis-ci.org/plang85/rough_surface
 
 ## Install/Contribute
 
-The API is still in flux, and for now only the functions used in the examples should remain stable. For developers, clone the repo and cd into it using a virtual environment
+Clone the repo and cd into it using a virtual environment
 ```
 git clone https://github.com/plang85/rough_surfaces.git
 python3 -m venv rsenv
