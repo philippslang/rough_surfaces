@@ -11,12 +11,12 @@ Linux, Python 3.6 | [![Build Status](https://travis-ci.org/plang85/rough_surface
 Clone the repo and cd into it using a virtual environment
 ```
 git clone https://github.com/plang85/rough_surfaces.git
-python3 -m venv rsenv
-. rsenv/bin/activate
+cd rough_surfaces
+python3 -m venv venv
+source venv/bin/activate
 ```
 and verify that the tests are passing
 ```
-cd rough_surfaces
 pip install -e .[test] 
 pytest
 ```
@@ -24,7 +24,6 @@ do some damage and just PR against master.
 
 To just use the module, it's still good practice to checkout the repo and use a venv, but then just do
 ```
-cd rough_surfaces
 pip install .
 ```
 instead. As you can see recommenden practice is to use the head at all times (if you're adventureous).
