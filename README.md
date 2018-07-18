@@ -41,7 +41,7 @@ surface_params = rp.self_affine_default_parameters()
 N_power_of_two = 9
 surface = rg.self_affine(surface_params, N_power_of_two)
 ```
-where `surface` is a two-dimensional numpy array duck.
+where `surface` is essentially a two-dimensional numpy array with a lattice size attribute `dxy`.
 
 ### Analysis
 
@@ -49,7 +49,7 @@ See `example_analysis.py` for a more complete overview and the provided plotting
 ```
 import rough_surfaces.analyse as ra
 
-spectrum = ra.radially_averaged_psd(h, dxy)
+spectrum = ra.radially_averaged_psd(surface)
 invariants = ra.self_affine_psd_fit(*surface_spectrum)
 print('Hurst = {0:.2f}'.format(invariants[1]))
 ```
