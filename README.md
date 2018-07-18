@@ -37,7 +37,7 @@ We can generate an isotropic, self-affine surface like this
 import rough_surface.params as rp
 import rough_surface.generate as rg
 
-surface_params = rp.self_affine_default_parameters()
+surface_params = rp.SelfAffineParameters()()
 N_power_of_two = 9
 surface = rg.self_affine(surface_params, N_power_of_two)
 ```
