@@ -1,6 +1,6 @@
-# Brown
+# rough_surfaces
 
-A Python3 module for the analysis, elastic contact and fluid flow simulation of rock fractures
+A Python3 module for the analysis, elastic contact and fluid flow simulation of rock fractures.
 
 Platform | CI Status | Coverage
 ---------|-------------|-------------:
@@ -34,12 +34,12 @@ instead. As you can see recommenden practice is to use the head at all times (if
 
 We can generate an isotropic, self-affine surface like this
 ```
-import brown.params as bp
-import brown.generate as bg
+import rough_surface.params as rp
+import rough_surface.generate as rg
 
-surface_params = bp.self_affine_default_parameters()
+surface_params = rp.self_affine_default_parameters()
 N_power_of_two = 9
-surface = bg.self_affine(surface_params, N_power_of_two)
+surface = rg.self_affine(surface_params, N_power_of_two)
 ```
 where `surface` is a two-dimensional numpy array duck.
 
@@ -47,10 +47,10 @@ where `surface` is a two-dimensional numpy array duck.
 
 See `example_analysis.py` for a more complete overview and the provided plotting functions. In short, given a two-dimensional array `h` that represents discrete surface height uniformly spaced by `dxy`, the radially averaged power-spectrum can be obtained like this (this API is in flux)
 ```
-import brown.analyse as ba
+import rough_surfaces.analyse as ra
 
-spectrum = ba.radially_averaged_psd(h, dxy)
-invariants = ba.self_affine_psd_fit(*surface_spectrum)
+spectrum = ra.radially_averaged_psd(h, dxy)
+invariants = ra.self_affine_psd_fit(*surface_spectrum)
 print('Hurst = {0:.2f}'.format(invariants[1]))
 ```
 
@@ -69,12 +69,12 @@ An anisotropic surface is characterized by a less linear radially averaged PSD a
 
 We can solve the elastic frictionless contact between two rough surfaces by solving the equivalent problem of a rigid composite surface against an elastic, flat body of composite properties
 ```
-import brown.contact as bc
+import rough_surfaces.contact as rc
 
 nominal_stress = 1.0E7
 E = 1.0E+9
 nu = 0.3
-contact = bc.contact_FFT(composite_surface, nominal_stress, E, nu, verbose=1)
+contact = rc.contact_FFT(composite_surface, nominal_stress, E, nu, verbose=1)
 ```
 For a more detailed snippet see `example_analysis.py`.
 
@@ -90,7 +90,7 @@ For a more detailed snippet see `example_analysis.py`.
 We can also use a high-level function to compute the stiffness over a range of stresses
 ```
 nominal_stress = np.logspace(6, 8, 15)
-stiffness = bc.stiffness(nominal_stress, surface, E, nu, err_lim=1.0E-8)
+stiffness = rc.stiffness(nominal_stress, surface, E, nu, err_lim=1.0E-8)
 ```
 <p align="left">
   <img src="https://raw.githubusercontent.com/plang85/rough_surfaces/master/doc/stiffness.png" height="400">

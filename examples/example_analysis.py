@@ -1,7 +1,7 @@
 import numpy as np
-import brown.surface as bs
-import brown.analyse as ba
-import brown.plot as bp
+import rough_surfaces.surface as rs
+import rough_surfaces.analyse as ra
+import rough_surfaces.plot as rp
 import matplotlib.pyplot as plt
 
 

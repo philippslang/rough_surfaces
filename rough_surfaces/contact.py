@@ -1,6 +1,6 @@
 import numpy as np
 import numpy.fft as dft
-import brown.surface as bs
+from . import surface as bs
 
 
 def homogeneous_composite_modulus(E, nu):

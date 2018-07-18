@@ -2,4 +2,4 @@ The scope of this module is on hydro-mechanical simulation and statistical analy
 
 1. Bugs and feature request go to Issues
 1. Take a look at the contributions project
-1.  Submit PR against master
+1. Submit PR against master

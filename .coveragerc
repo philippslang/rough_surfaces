@@ -1,4 +1,4 @@
 [run]
-omit = brown/plot.py
-       brown/params.py
+omit = rough_surfaces/plot.py
+       rough_surfaces/params.py
        */__init__.py

@@ -1,7 +1,7 @@
 from setuptools import setup
 
 
-setup(name='Brown',
+setup(name='rough_surfaces',
       version='0.1',
       description='Analysis, contact and flow - fractures and rough surfaces',
       author='Philipp S. Lang',
@@ -24,4 +24,4 @@ setup(name='Brown',
           'Topic :: Software Development :: Libraries',
           'Topic :: Software Development :: Libraries :: Python Modules'
       ],
-      packages=['brown'])
+      packages=['rough_surfaces'])

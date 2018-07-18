@@ -1,10 +1,10 @@
 import numpy as np
-import brown.params as bp
-import brown.generate as bg
-import brown.analyse as ba
-import brown.contact as bc
+import rough_surfaces.params as rp
+import rough_surfaces.generate as rg
+import rough_surfaces.analyse as ra
+import rough_surfaces.contact as rc
 import matplotlib.pyplot as plt
-import brown.plot as bplt
+import rough_surfaces.plot as rplt
 
 
 if 1:

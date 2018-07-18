@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from . import surface as bs
+from . import surface as rs
 
 
 def self_affine(saparams, power_of_two, seed=None):
@@ -8,11 +8,11 @@ def self_affine(saparams, power_of_two, seed=None):
     Generates a self affine rough surface with periodic boundaries using provided parameters,
     discretization size and random seed.
 
-    >>> import brown.parameters as bp
-    >>> import brown.surface as bs
-    >>> saparams = bp.SelfAffineParameters()
+    >>> import rough_surfaces.parameters as rp
+    >>> import rough_surfaces.surface as rs
+    >>> saparams = rp.SelfAffineParameters()
     >>> s = self_affine(saparams, 7, seed=0)
-    >>> bs.rms(s) == saparams.hrms
+    >>> rs.rms(s) == saparams.hrms
     True
     '''
     np.random.seed(seed)
@@ -54,9 +54,9 @@ def self_affine(saparams, power_of_two, seed=None):
             A[i, N - j] = rad * np.cos(phase) + rad * np.sin(phase) * 1j
             A[N - i, j] = rad * np.cos(phase) - rad * np.sin(phase) * 1j
     H = np.real(np.fft.ifft2((A)))
-    s = bs.Surface(H, L / float(N))
-    s = bs.scale_to_rms(s, saparams.hrms)
-    s = bs.shift_to_zero_mean(s)
+    s = rs.Surface(H, L / float(N))
+    s = rs.scale_to_rms(s, saparams.hrms)
+    s = rs.shift_to_zero_mean(s)
     return s
 
 
@@ -75,7 +75,7 @@ def sphere(N, edge_length, radius, scaling=1.0):
     h = np.zeros(r.shape)
     h[r <= radius] = np.sqrt(radius**2 - r[r <= radius]**2) * scaling
     dxy = edge_length / float(N)
-    s = bs.Surface(h, dxy)
+    s = rs.Surface(h, dxy)
     return s
 
 
