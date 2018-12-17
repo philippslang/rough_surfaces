@@ -11,10 +11,11 @@ setup(name='rough_surfaces',
                         'scipy>=0.14',
                         'matplotlib'], # hate this here TODO somehow get rid of plotting stuff
       extras_require={
-          'test': ['pytest',
+          'test': ['pytest>=3.6.0',
                    'pytest-pep8',
                    'pytest-xdist',
-                   'pytest-cov'],
+                   'pytest-cov',
+                   'codecov'],
       },
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',
