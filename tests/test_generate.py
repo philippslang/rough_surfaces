@@ -12,7 +12,7 @@ def rough_surface():
     # TODO discretization parameter abstraction
     N_power_of_two = 9
     surface_params = rp.SelfAffineParameters()
-    surface = rg.self_affine(surface_params, N_power_of_two)
+    surface = rg.make_self_affine(surface_params, N_power_of_two)
     return surface, surface_params, N_power_of_two
 
 
