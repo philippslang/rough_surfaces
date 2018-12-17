@@ -5,6 +5,7 @@ python:
 # command to install dependencies
 install:
   - pip install .[test]
+  - pip install codecov
 
 # command to run tests, TODO should we move this to a script?
 script:
