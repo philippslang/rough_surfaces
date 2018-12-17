@@ -5,3 +5,4 @@ class SelfAffineParameters:
         self.hurst = 0.8
         self.lambda_L_over_lambda_0 = None
         self.lambda_L_over_lambda_1 = None
+        self.anisotropy = 1.0

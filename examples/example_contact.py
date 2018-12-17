@@ -14,7 +14,7 @@ rcParams['image.cmap'] = 'hot'
 
 N_power_of_two = 9
 surface_params = rp.SelfAffineParameters()
-surface = rg.self_affine(surface_params, N_power_of_two, seed=0)
+surface = rg.make_self_affine(surface_params, N_power_of_two, seed=0)
 E, nu = 1.0E+9, 0.3
 dxy = 1.0E-3
 nominal_stress = 1.0E7
